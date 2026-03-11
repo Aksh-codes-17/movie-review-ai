@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Movie Review AI</title>
-<link rel="stylesheet" href="style.css">
+    <title>Movie Review AI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h1>🎬 Movie Review Sentiment Analyzer</h1>
     
     <input type="text" id="reviewInput" placeholder="Enter movie review">
-    <button onclick="analyzeSentiment()">Analyze</button>
+    <button id="analyzeBtn" onclick="runLogic()">Analyze</button>
 
     <h2 id="resultDisplay">Result: Waiting...</h2>
 
     <script>
-        async function analyzeSentiment() {
-            const review = document.getElementById('reviewInput').value;
-            const response = await fetch('/predict', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ review: review })
-            });
-            const data = await response.json();
-            document.getElementById('resultDisplay').innerText = "Result: " + data.sentiment;
+        function runLogic() {
+            const text = document.getElementById('reviewInput').value.toLowerCase();
+            const result = document.getElementById('resultDisplay');
+
+            // This mimics your CSV dataset logic
+            const positiveWords = ['amazing', 'love', 'fantastic', 'good', 'great'];
+            const negativeWords = ['boring', 'worst', 'bad', 'terrible', 'hate'];
+
+            let isPositive = positiveWords.some(word => text.includes(word));
+            let isNegative = negativeWords.some(word => text.includes(word));
+
+            if (isPositive) {
+                result.innerHTML = "Result: Positive 😊";
+                result.style.color = "#4bb543";
+            } else if (isNegative) {
+                result.innerHTML = "Result: Negative 😞";
+                result.style.color = "#ff4444";
+            } else {
+                result.innerHTML = "Result: Neutral 😐";
+                result.style.color = "white";
+            }
         }
     </script>
 </body>
+</html>
 
