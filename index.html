@@ -1,41 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Movie Review AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <h1>🎬 Movie Review Sentiment Analyzer</h1>
     
-    <input type="text" id="reviewInput" placeholder="Enter movie review">
-    <button id="analyzeBtn" onclick="runLogic()">Analyze</button>
+    <input type="text" id="userInput" placeholder="Enter movie review">
+    
+    <button onclick="analyzeText()">Analyze</button>
 
-    <h2 id="resultDisplay">Result: Waiting...</h2>
+    <h2 id="displayResult">Result: Waiting...</h2>
 
     <script>
-        function runLogic() {
-            const text = document.getElementById('reviewInput').value.toLowerCase();
-            const result = document.getElementById('resultDisplay');
+        function analyzeText() {
+            // 1. Get the text from the input box
+            const text = document.getElementById('userInput').value.toLowerCase();
+            const resultElement = document.getElementById('displayResult');
 
-            // This mimics your CSV dataset logic
-            const positiveWords = ['amazing', 'love', 'fantastic', 'good', 'great'];
-            const negativeWords = ['boring', 'worst', 'bad', 'terrible', 'hate'];
+            // 2. The "Brain" (Keywords)
+            const goodWords = ['amazing', 'great', 'love', 'fantastic', 'good', 'best'];
+            const badWords = ['boring', 'worst', 'bad', 'terrible', 'hate', 'waste'];
 
-            let isPositive = positiveWords.some(word => text.includes(word));
-            let isNegative = negativeWords.some(word => text.includes(word));
+            // 3. Logic: Check if words match
+            let isPositive = goodWords.some(word => text.includes(word));
+            let isNegative = badWords.some(word => text.includes(word));
 
+            // 4. Update the screen
             if (isPositive) {
-                result.innerHTML = "Result: Positive 😊";
-                result.style.color = "#4bb543";
+                resultElement.innerText = "Result: Positive 😊";
+                resultElement.style.color = "lightgreen";
             } else if (isNegative) {
-                result.innerHTML = "Result: Negative 😞";
-                result.style.color = "#ff4444";
+                resultElement.innerText = "Result: Negative 😞";
+                resultElement.style.color = "tomato";
             } else {
-                result.innerHTML = "Result: Neutral 😐";
-                result.style.color = "white";
+                resultElement.innerText = "Result: Neutral 😐 (Try words like 'amazing' or 'boring')";
+                resultElement.style.color = "white";
             }
         }
     </script>
+
 </body>
 </html>
-
